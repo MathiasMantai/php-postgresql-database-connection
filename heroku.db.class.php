@@ -6,16 +6,17 @@ class DB {
     private $pdo;
 
     function __construct() {
-        require_once 'heroku.config.php';
+        
         try {
-            $this->pdo = new PDO("pgsql:" . sprintf(
-                "host=%s;port=%s;user=%s;password=%s;dbname=%s",
-                $conn["host"],
-                $conn["port"],
-                $conn["user"],
-                $conn["pass"],
-                ltrim($conn["path"], "/")
-            ));    
+            include './heroku.config.php';
+
+            $options = array(
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+                PDO::MYSQL_ATTR_SSL_CA => '/path/to/cacert.pem',
+                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+            );
+            $this->pdo = new PDO("pgsql:host=".$conn["host"].";dbname=". ltrim($conn["path"], "/"), $conn["user"], $conn["pass"], $options);
+
         }
         catch(PDOException $e) {
             die($e->getMessage());
