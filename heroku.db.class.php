@@ -8,14 +8,7 @@ class DB {
     function __construct() {
         require_once 'heroku.config.php';
         try {
-            $this->pdo = new PDO("pgsql:" . sprintf(
-                "host=%s;port=%s;user=%s;password=%s;dbname=%s",
-                $conn["host"],
-                $conn["port"],
-                $conn["user"],
-                $conn["pass"],
-                ltrim($db["path"], "/")
-            ));    
+            $this->pdo = new PDO("pgsql:host=".$conn["host"].";port=".$conn["port"].";user=".$conn["user"].";password=".$conn["pass"].";dbname=". ltrim($db["path"], "/"));    
         }
         catch(PDOException $e) {
             die($e->getMessage());
