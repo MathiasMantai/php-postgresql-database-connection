@@ -23,6 +23,34 @@ class DB {
         }
     }
 
+    function begin() {
+        try {
+            $this->pdo->beginTransaction();
+        }
+        catch(PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+    function commit() {
+        try {
+            $this->pdo->commit();
+        }
+        catch(PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+    function rollback() {
+        try {
+            $this->pdo->rollBack();
+        }
+        catch(PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+
     // query method
     // returns pdo statement object
     function query(string $queryString, Array $substitutionArray) {
